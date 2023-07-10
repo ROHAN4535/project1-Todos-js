@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todoist To Do List App</title>
+    <style>
+      body {
+        background-color: rgb(177, 170, 212);
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <header class="header">
+      <h1>TodoList To Do List App</h1>
+    </header>
+
+    <form id="myForm" onsubmit="addTodo(event)">
+      <label for="todoName">Todo Name:</label>
+      <input type="text" id="todoName" name="todoName"/>
+
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description"/>
+
+      <button type="submit">Add Item</button>
+    </form>
+
+    <br/>
+
+    <div class="lst">
+      <h2 class="ord">Orders</h2>
+      <div class="items">
+        <h3>Todos Remaining</h3>
+        <ul class="td-1" >
+        </ul>
+
+        <h3>Todos Done</h3>
+        <ul class="td-2 "></ul>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="Todo.js"></script>
+  </body>
+</html>

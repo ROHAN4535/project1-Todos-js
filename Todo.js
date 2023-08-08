@@ -2,15 +2,30 @@ let todoName = document.getElementById("todoName");
 let description = document.getElementById("description");
 let todosRequired = document.querySelector(".td-1");
 let todosDone = document.querySelector(".td-2");
+let ordlist = document.querySelectorAll(".ordlist");
+
+for (let i = 0; i < ordlist.length; i++) {
+  ordlist[i].addEventListener("click", deleteOrder);
+}
 
 let generateHtml = (id, todoName, description) => {
   const li = `<li id="${id}"> ${todoName} - ${description}
                     <button type="button" onclick="done(event)">&#10004;</button>
-                    <button type="button" onclick="cancel(event)">&#10006;</button>
+                    <button type="button" onclick="deleteItem(event)" class="delete">&#10006</button>
                 </li>`;
-    todosRequired.innerHTML = todosRequired.innerHTML + li
-  
+  todosRequired.innerHTML = todosRequired.innerHTML + li;
 };
+
+function done(event) {
+  const item = event.target.parentElement;
+  item.querySelector("button").remove();
+  item.querySelector(".delete").remove();
+  todosDone.appendChild(item);
+}
+function deleteItem(event) {
+  const item = event.target.parentElement;
+  item.remove();
+}
 
 async function addTodo(event) {
     
@@ -23,7 +38,7 @@ async function addTodo(event) {
 
     try {
       let response = await axios.post(
-        "https://crudcrud.com/api/bb6740962ccc4376ba340fde43ddc3c0/Todosdata",
+        "https://crudcrud.com/api/82370a7656d54e8b8c790c20f33a141a/Todosdata",
         todoObj
       );
       generateHtml(
@@ -42,7 +57,7 @@ async function addTodo(event) {
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     let response = await axios.get(
-      "https://crudcrud.com/api/bb6740962ccc4376ba340fde43ddc3c0/Todosdata"
+      "https://crudcrud.com/api/82370a7656d54e8b8c790c20f33a141a/Todosdata"
     );
     response.data.forEach((order) => {
       generateHtml(order._id, order.todoName, order.description);
@@ -52,13 +67,20 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-function done(event) {
-    const item = event.target.parentElement;
-    todosDone.appendChild(item);
+// delete order
+
+async function deleteOrder(event) {
+  if (event.target.classList.contains("delete")) {
+    const id = event.target.parentElement.getAttribute("id");
+    try {
+      let response = await axios.delete(
+        `https://crudcrud.com/api/82370a7656d54e8b8c790c20f33a141a/Todosdata/${id}`
+      );
+      event.target.parentElement.remove();
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
-  
-  function cancel(event) {
-    const item = event.target.parentElement;
-    todosRequired.appendChild(item);
-  }
+}
   
